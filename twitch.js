@@ -33,7 +33,6 @@ class TwitchAdMute {
         const video = document.querySelector("video");
         if (video) {
             video.muted = muted;
-            console.log("[ADMUTE] set muted", muted);
         }
     }
 }

@@ -17,7 +17,6 @@ class YouTubeAdMute {
                         const skipAdButton = document.querySelector(".ytp-ad-skip-button");
                         if (skipAdButton) {
                             skipAdButton.click();
-                            console.log("[ADMUTE] skipped ad");
                         }
                     } else if (this.ad) {
                         this.setMuted(false);
@@ -48,7 +47,6 @@ class YouTubeAdMute {
      * @param {HTMLVideoElement} video 
      */
     videoLoaded(container, video) {
-        console.log("[ADMUTE] video loaded");
         this.video = video;
         this.container = container;
         this.observer.observe(this.container, {
@@ -58,7 +56,6 @@ class YouTubeAdMute {
     }
 
     videoUnloaded() {
-        console.log("[ADMUTE] video unloaded");
         this.video = null;
         this.container = null;
         this.observer.disconnect();
@@ -72,7 +69,6 @@ class YouTubeAdMute {
         const video = document.querySelector("video");
         if (video) {
             video.muted = muted;
-            console.log("[ADMUTE] set muted", muted);
         }
     }
 
