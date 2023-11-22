@@ -6,24 +6,8 @@ class YouTubeAdMute {
         this.ad = false;
 
         // Observe changes inside the player container and mute/skip when ads are playing
-        this.observer = new MutationObserver(mutationsList => {
-            for (const mutation of mutationsList) {
-                if (mutation.type === 'childList') {
-                    if (this.isAdPlaying()) {
-                        if (!this.ad) {
-                            this.setMuted(true);
-                            this.ad = true;
-                        }
-                        const skipAdButton = document.querySelector(".ytp-ad-skip-button");
-                        if (skipAdButton) {
-                            skipAdButton.click();
-                        }
-                    } else if (this.ad) {
-                        this.setMuted(false);
-                        this.ad = false;
-                    }
-                }
-            }
+        this.observer = new MutationObserver(() => {
+            this.update();
         });
 
         // Wait for the player container to appear
@@ -38,7 +22,22 @@ class YouTubeAdMute {
                 this.hasVideo = true;
                 this.videoLoaded(container, video);
             }
+            this.update();
         }, 1000);
+    }
+
+    update() {
+        if (this.isAdPlaying()) {
+            this.setMuted(true);
+            this.ad = true;
+            const skipAdButton = document.querySelector(".ytp-ad-skip-button, .ytp-ad-skip-button-modern");
+            if (skipAdButton) {
+                skipAdButton.click();
+            }
+        } else if (this.ad) {
+            this.setMuted(false);
+            this.ad = false;
+        }
     }
 
     /**
@@ -62,22 +61,22 @@ class YouTubeAdMute {
     }
 
     isAdPlaying() {
-        return document.querySelector(".ytp-ad-player-overlay-instream-info") ? true : false;
+        return document.querySelector(".ytp-ad-player-overlay-instream-info, .ytp-ad-survey-player-overlay-instream-info") ? true : false;
     }
 
     setMuted(muted) {
-        const video = document.querySelector("video");
+        const video = this.getVideo();
         if (video) {
             video.muted = muted;
         }
     }
 
     getVideoContainer() {
-        return document.querySelector("ytd-player");
+        return document.getElementById("ytd-player") || document.querySelector("ytmusic-player");
     }
 
     getVideo() {
-        return document.querySelector("video");
+        return document.querySelector("#ytd-player video") || document.querySelector("ytmusic-player video");
     }
 }
 
