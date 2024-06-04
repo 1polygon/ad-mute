@@ -30,7 +30,7 @@ class YouTubeAdMute {
         if (this.isAdPlaying()) {
             this.setMuted(true);
             this.ad = true;
-            const skipAdButton = document.querySelector(".ytp-ad-skip-button, .ytp-ad-skip-button-modern");
+            const skipAdButton = document.querySelector(".ytp-skip-ad-button, .ytp-ad-skip-button, .ytp-ad-skip-button-modern");
             if (skipAdButton) {
                 skipAdButton.click();
             }
@@ -61,7 +61,7 @@ class YouTubeAdMute {
     }
 
     isAdPlaying() {
-        return document.querySelector(".ytp-ad-player-overlay-instream-info, .ytp-ad-survey-player-overlay-instream-info") ? true : false;
+        return document.querySelector(".ytp-ad-player-overlay-layout, .ytp-ad-player-overlay-instream-info, .ytp-ad-survey-player-overlay-instream-info") ? true : false;
     }
 
     setMuted(muted) {
